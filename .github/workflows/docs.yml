@@ -1,0 +1,65 @@
+name: Documentation Deploy
+on:
+  push:
+    branches:
+      - main
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    env:
+      MDBOOK_VERSION: 0.4.36
+      MDBOOK_ADMONISH_VERSION: 1.15.0
+    steps:
+    - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+      with:
+        fetch-depth: 0
+        persist-credentials: false
+    - name: Install mdbook and mdbook-admonish
+      run: |
+        curl --proto '=https' --tlsv1.3 https://sh.rustup.rs -sSf -y | sh
+        rustup update
+        cargo install --version ${MDBOOK_VERSION} mdbook --locked
+        cargo install --version ${MDBOOK_ADMONISH_VERSION} mdbook-admonish --locked
+        mdbook-admonish install ./
+    - name: Build the book
+      run: mdbook build
+    - name: Checkout upstream leptos-rs/book
+      uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+      with:
+        repository: leptos-rs/book
+        path: upstream
+        depth: 1
+        persist-credentials: false
+    - name: Verify translation vs upstream
+      shell: pwsh
+      run: |
+        ./scripts/verify-translation.ps1 -Orig ./upstream/src
+    - name: Check links
+      shell: pwsh
+      run: |
+        ./scripts/check-links.ps1
+    - name: Upload Artifact
+      uses: actions/upload-pages-artifact@fc324d3547104276b827a68afc52ff2a11cc49c9 # v5
+      with:
+        path: ./book
+
+  deploy:
+    needs: build
+
+    permissions:
+      pages: write
+      id-token: write
+
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+
+    runs-on: ubuntu-latest
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@368f82528645a54fb793d4d04e342629a3f51346 # v5
