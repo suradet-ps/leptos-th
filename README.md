@@ -26,7 +26,7 @@ upstream repo file-for-file, and the license travels with the text.
 Built for the Thai-speaking student of Leptos:
 [suradet-ps.github.io/leptos-th](https://suradet-ps.github.io/leptos-th/).
 
-| แปลครบ 60 ไฟล์ ▣ | Glossary ▣ | ลิงก์ 706/706 ▣ | Build ผ่าน ▣ |
+| 60 files translated ▣ | Glossary ▣ | Links 706/706 ▣ | Build passing ▣ |
 |---|---|---|---|
 
 *v1.0.0 - translation, glossary, verification, and the static build
@@ -96,9 +96,9 @@ One stack, zero custom JS, several quiet helpers.
   the view layer, reactivity, testing, async, router, global state,
   SSR, server functions, deployment, islands, and the appendices -
   Thai prose over untouched code.
-- **Glossaries** - `GLOSSARY.md` locks the vocabulary (signal =
-  สัญญาณ, component = คอมโพเนนต์, hydration = การไฮเดรต), so chapter
-  nine agrees with chapter two.
+- **Glossaries** - `GLOSSARY.md` locks the vocabulary (one Thai
+  rendering per term, reused everywhere), so chapter nine agrees
+  with chapter two.
 - **Verifies** - `scripts/verify-translation.ps1` diffs every code
   block, admonish directive, heading level, and link target against
   upstream `leptos-rs/book` - byte-exact or it does not pass.
@@ -127,10 +127,10 @@ One stack, zero custom JS, several quiet helpers.
 4. Build, verify, check. The book builds clean, the diff is
    byte-exact, and the anchors resolve.
 
-**The ceremony of the anchor** - mdbook slugs strip Thai tone marks
-(`การเขียนสคริปต์` becomes `การเขียนสคริปต`). Anchors are read from
-the built HTML, written into the source, and re-verified - a guessed
-anchor is a broken link waiting to happen.
+**The ceremony of the anchor** - mdbook slugs strip Thai tone marks,
+so a built anchor never matches its heading verbatim. Anchors are read
+from the built HTML, written into the source, and re-verified - a
+guessed anchor is a broken link waiting to happen.
 
 **The ceremony of the code block** - a translated command that is not
 byte-identical to the original is a regression, not a translation.
@@ -165,8 +165,8 @@ report `ALL ANCHOR LINKS OK`.
 
 ```
   ─────────────────────────────────────────
-   ทุกแอปมีสัญญาณแรกของมัน
-   ทุกหนังสือมีหน้าแรกของมัน
+   Every app has its first signal
+   Every book has its first page
   ─────────────────────────────────────────
 ```
 
