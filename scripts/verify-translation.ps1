@@ -206,13 +206,14 @@ foreach ($f in $origFiles) {
     # Intentional fixes of upstream links: root-absolute `/view/...` links break on
     # GitHub Pages project sites (the book is served below /leptos-th/), and anchors
     # into headings that were translated. Mappings are normalized original -> normalized translation.
+    $relKey = $rel.Replace('\', '/')
     $knownLinkFixes = @{
-        'view\09_component_children.md' = @{ '/view/06_control_flow.html' = '06_control_flow.md' }
+        'view/09_component_children.md' = @{ '/view/06_control_flow.html' = '06_control_flow.md' }
         '15_global_state.md'            = @{ '../view/04b_iteration.md' = 'view/04b_iteration.md' }
         'web_sys.md'                    = @{ '/view/05_forms.html?highlight=NodeRef' = 'view/05_forms.html?highlight=NodeRef' }
     }
-    if ($knownLinkFixes.ContainsKey($rel)) {
-        $fix = $knownLinkFixes[$rel]
+    if ($knownLinkFixes.ContainsKey($relKey)) {
+        $fix = $knownLinkFixes[$relKey]
         $allowedExtra = @($fix.Values)
         $missing = @($missing | Where-Object { -not $fix.ContainsKey($_) })
         $extra = @($extra | Where-Object { $_ -notin $allowedExtra })

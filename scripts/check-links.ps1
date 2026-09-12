@@ -16,7 +16,6 @@ foreach ($f in $files) {
     foreach ($m in [regex]::Matches($content, 'id="([^"]+)"')) { $ids[$m.Groups[1].Value] = $true }
 
     $rel = $f.FullName.Substring($book.Length + 1).Replace('\','/')
-    $dir = Split-Path $rel -Parent
     foreach ($m in [regex]::Matches($content, 'href="([^"]*)"')) {
         $href = $m.Groups[1].Value
         if ($href -like 'http*' -or $href -like 'javascript*' -or $href -eq '') { continue }
@@ -28,7 +27,11 @@ foreach ($f in $files) {
             }
         } elseif ($href -like '*.html*' -or $href -like '*print.html*') {
             $page = ($href -split '[?#]')[0]
-            $resolved = [System.IO.Path]::GetFullPath((Join-Path (Split-Path $f.FullName) ($page -replace '/', '\')))
+            $resolvedPath = Split-Path $f.FullName -Parent
+            foreach ($segment in ($page -split '/')) {
+                $resolvedPath = Join-Path $resolvedPath $segment
+            }
+            $resolved = [System.IO.Path]::GetFullPath($resolvedPath)
             if (-not (Test-Path -LiteralPath $resolved)) {
                 $broken += "$rel -> $href (file missing)"
                 continue
