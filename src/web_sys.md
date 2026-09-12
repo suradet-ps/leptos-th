@@ -85,7 +85,7 @@ RUSTFLAGS = "--cfg=web_sys_unstable_apis"
 
 สไตล์แบบประกาศของเฟรมเวิร์กหมายความว่าคุณไม่จำเป็นต้องจัดการโหนด DOM โดยตรงเพื่อสร้างส่วนติดต่อผู้ใช้ของคุณ
 อย่างไรก็ตาม ในบางกรณีคุณต้องการเข้าถึงเอลิเมนต์ DOM ภายใต้ที่แทนส่วนหนึ่งของวิวของคุณโดยตรง ส่วนของหนังสือ
-เกี่ยวกับ[“อินพุตแบบไม่ควบคุม”](/view/05_forms.html?highlight=NodeRef#uncontrolled-inputs) ได้แสดงวิธีทำโดยใช้
+เกี่ยวกับ[“อินพุตแบบไม่ควบคุม”](view/05_forms.html?highlight=NodeRef#อินพุตแบบไมควบคุม-uncontrolled-inputs) ได้แสดงวิธีทำโดยใช้
 ชนิด [`NodeRef`](https://docs.rs/leptos/latest/leptos/tachys/reactive_graph/node_ref/struct.NodeRef.html)
 
 `NodeRef::get` คืนค่าเอลิเมนต์ `web-sys` ที่มีชนิดถูกต้อง

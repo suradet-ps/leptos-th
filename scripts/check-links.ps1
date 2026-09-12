@@ -22,7 +22,7 @@ foreach ($f in $files) {
         if ($href -like 'http*' -or $href -like 'javascript*' -or $href -eq '') { continue }
         if ($href.StartsWith('#')) {
             $total++
-            $target = $href.Substring(1)
+            $target = [System.Uri]::UnescapeDataString($href.Substring(1))
             if (-not $ids.ContainsKey($target)) {
                 $broken += "$rel -> #$target (id not found)"
             }
@@ -35,7 +35,7 @@ foreach ($f in $files) {
             }
             if ($href -match '#(.+)$') {
                 $total++
-                $target = $Matches[1]
+                $target = [System.Uri]::UnescapeDataString($Matches[1])
                 $pContent = [System.IO.File]::ReadAllText($resolved)
                 if ($pContent -notmatch 'id="' + [regex]::Escape($target) + '"') {
                     $broken += "$rel -> $href (anchor not found in target)"

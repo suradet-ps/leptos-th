@@ -202,6 +202,22 @@ foreach ($f in $origFiles) {
     $ts = $ti | Sort-Object -Unique
     $missing = @($os | Where-Object { $_ -notin $ts })
     $extra = @($ts | Where-Object { $_ -notin $os })
+
+    # Intentional fixes of upstream links: root-absolute `/view/...` links break on
+    # GitHub Pages project sites (the book is served below /leptos-th/), and anchors
+    # into headings that were translated. Mappings are normalized original -> normalized translation.
+    $knownLinkFixes = @{
+        'view\09_component_children.md' = @{ '/view/06_control_flow.html' = '06_control_flow.md' }
+        '15_global_state.md'            = @{ '../view/04b_iteration.md' = 'view/04b_iteration.md' }
+        'web_sys.md'                    = @{ '/view/05_forms.html?highlight=NodeRef' = 'view/05_forms.html?highlight=NodeRef' }
+    }
+    if ($knownLinkFixes.ContainsKey($rel)) {
+        $fix = $knownLinkFixes[$rel]
+        $allowedExtra = @($fix.Values)
+        $missing = @($missing | Where-Object { -not $fix.ContainsKey($_) })
+        $extra = @($extra | Where-Object { $_ -notin $allowedExtra })
+    }
+
     if ($missing.Count -gt 0 -or $extra.Count -gt 0) {
         Write-Output "[FAIL] $rel : inline link targets differ (missing=[$($missing -join ', ')] extra=[$($extra -join ', ')])"
         $fail++
