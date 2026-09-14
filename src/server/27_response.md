@@ -1,10 +1,10 @@
 # การตอบกลับและการเปลี่ยนเส้นทาง
 
-เอกซ์แทรกเตอร์เป็นวิธีง่ายๆ ในการเข้าถึงข้อมูลคำขอภายในฟังก์ชันฝั่งเซิร์ฟเวอร์ Leptos ยังมีวิธีแก้ไขการตอบกลับ HTTP โดยใช้ชนิด `ResponseOptions` (ดูเอกสารสำหรับชนิดของ [Actix](https://docs.rs/leptos_actix/latest/leptos_actix/struct.ResponseOptions.html) หรือ [Axum](https://docs.rs/leptos_axum/latest/leptos_axum/struct.ResponseOptions.html)) และฟังก์ชันช่วย `redirect` (ดูเอกสารสำหรับ [Actix](https://docs.rs/leptos_actix/latest/leptos_actix/fn.redirect.html) หรือ [Axum](https://docs.rs/leptos_axum/latest/leptos_axum/fn.redirect.html))
+เอกซ์แทรกเตอร์เป็นวิธีที่สะดวกและง่ายดายในการเข้าถึงข้อมูลคำขอ (request data) ภายในฟังก์ชันฝั่งเซิร์ฟเวอร์ นอกจากนี้ Leptos ยังเตรียมกลไกสำหรับปรับแต่งคำตอบ HTTP (HTTP response) ผ่านชนิดข้อมูล `ResponseOptions` (ดูเอกสารสำหรับ [Actix](https://docs.rs/leptos_actix/latest/leptos_actix/struct.ResponseOptions.html) หรือ [Axum](https://docs.rs/leptos_axum/latest/leptos_axum/struct.ResponseOptions.html)) และฟังก์ชันตัวช่วย `redirect` (ดูเอกสารสำหรับ [Actix](https://docs.rs/leptos_actix/latest/leptos_actix/fn.redirect.html) หรือ [Axum](https://docs.rs/leptos_axum/latest/leptos_axum/fn.redirect.html)) ไว้อีกด้วย
 
 ## `ResponseOptions`
 
-`ResponseOptions` ถูกให้ผ่านคอนเท็กซ์ระหว่างการตอบกลับการเรนเดอร์ฝั่งเซิร์ฟเวอร์ครั้งแรก และระหว่างการเรียกฟังก์ชันฝั่งเซิร์ฟเวอร์ครั้งต่อๆ ไป มันช่วยให้คุณตั้งรหัสสถานะสำหรับการตอบกลับ HTTP หรือเพิ่มเฮดเดอร์ในการตอบกลับ HTTP ได้อย่างง่ายดาย เช่น เพื่อตั้งคุกกี้
+`ResponseOptions` จะถูกส่งมอบผ่านระบบคอนเทกซ์ (context) ในระหว่างขั้นตอนการเรนเดอร์ตอบกลับบนเซิร์ฟเวอร์ในรอบแรก และในระหว่างการเรียกใช้งานฟังก์ชันฝั่งเซิร์ฟเวอร์ในรอบต่อ ๆ ไป มันช่วยให้คุณสามารถกำหนดรหัสสถานะ (status code) สำหรับคำตอบ HTTP หรือเพิ่มส่วนหัว (headers) เข้าไปในคำตอบ HTTP ได้อย่างง่ายดาย เช่น การตั้งค่าคุกกี้ (cookies)
 
 ```rust
 #[server]
@@ -33,7 +33,7 @@ pub async fn tea_and_cookies() -> Result<(), ServerFnError> {
 
 ## `redirect`
 
-การแก้ไขการตอบกลับ HTTP ที่พบบ่อยอย่างหนึ่งคือการเปลี่ยนเส้นทางไปยังหน้าอื่น การผสานรวม Actix และ Axum มีฟังก์ชัน `redirect` เพื่อให้เรื่องนี้ง่าย
+การปรับแต่งคำตอบ HTTP ที่พบได้บ่อยอย่างหนึ่งคือการเปลี่ยนเส้นทาง (redirect) ไปยังหน้าอื่น ซึ่งการผสานรวมของทั้ง Actix และ Axum ต่างก็มีฟังก์ชัน `redirect` มาให้เพื่อให้คุณทำสิ่งนี้ได้อย่างสะดวกสบาย:
 
 ```rust
 #[server]
@@ -73,4 +73,4 @@ pub async fn login(
 }
 ```
 
-ฟังก์ชันฝั่งเซิร์ฟเวอร์นี้สามารถใช้ได้จากแอปพลิเคชันของคุณ `redirect` นี้ทำงานร่วมกับคอมโพเนนต์ `<ActionForm/>` ที่เสริมความสามารถแบบก้าวหน้าได้ดี: หากไม่มี JS/WASM การตอบกลับจากเซิร์ฟเวอร์จะเปลี่ยนเส้นทางเนื่องจากรหัสสถานะและเฮดเดอร์ หากมี JS/WASM `<ActionForm/>` จะตรวจจับการเปลี่ยนเส้นทางในการตอบกลับของฟังก์ชันฝั่งเซิร์ฟเวอร์ และใช้การนำทางฝั่งไคลเอนต์เพื่อเปลี่ยนเส้นทางไปยังหน้าใหม่
+จากนั้นคุณสามารถเรียกใช้ฟังก์ชันฝั่งเซิร์ฟเวอร์นี้ได้จากทุกที่ในแอปพลิเคชันของคุณ โดยที่ `redirect` นี้จะทำงานร่วมกับคอมโพเนนต์ `<ActionForm/>` ที่รองรับการเสริมประสิทธิภาพอย่างต่อเนื่อง (progressive enhancement) ได้อย่างสมบูรณ์แบบ: หากเบราว์เซอร์ไม่มีหรือปิดการใช้งาน JS/WASM คำตอบจากเซิร์ฟเวอร์จะสั่ง redirect ทันทีผ่าน HTTP status code และ header ส่วนในกรณีที่มี JS/WASM ตัวคอมโพเนนต์ `<ActionForm/>` จะตรวจจับคำสั่ง redirect ในผลลัพธ์ของฟังก์ชันฝั่งเซิร์ฟเวอร์ แล้วเปลี่ยนเส้นทางไปยังหน้าใหม่โดยใช้ระบบการนำทางบนฝั่งไคลเอนต์ (client-side navigation) ให้โดยอัตโนมัติ

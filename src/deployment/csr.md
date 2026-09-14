@@ -1,16 +1,16 @@
 # การดีพลอยแอป CSR
 
-หากคุณสร้างแอปที่ใช้เฉพาะการเรนเดอร์ฝั่งไคลเอนต์ โดยใช้ Trunk เป็นเซิร์ฟเวอร์สำหรับพัฒนาและเครื่องมือบิลด์ กระบวนการนี้ก็ค่อนข้างง่าย
+หากคุณสร้างแอปที่ใช้เฉพาะการเรนเดอร์ฝั่งไคลเอนต์ (CSR) โดยใช้ Trunk เป็นทั้งเซิร์ฟเวอร์สำหรับพัฒนาในเครื่องและเครื่องมือสำหรับบิลด์ กระบวนการนี้ง่ายและตรงไปตรงมามาก:
 
 ```bash
 trunk build --release
 ```
 
-`trunk build` จะสร้างผลลัพธ์จากการบิลด์จำนวนหนึ่งไว้ในไดเรกทอรี `dist/` การนำ `dist` ไปเผยแพร่บนออนไลน์ก็เพียงพอสำหรับการดีพลอยแอปของคุณ วิธีนี้ควรทำงานคล้ายคลึงกับการดีพลอยแอปพลิเคชัน JavaScript ทั่วไปมาก
+คำสั่ง `trunk build` จะสร้างผลลัพธ์จากการบิลด์จำนวนหนึ่งไว้ในไดเรกทอรี `dist/` การนำไฟล์ทั้งหมดในโฟลเดอร์ `dist` นี้ไปเผยแพร่บนโฮสติ้งออนไลน์ก็เพียงพอสำหรับการดีพลอยแอปของคุณแล้ว ซึ่งกระบวนการนี้ทำงานคล้ายคลึงกับการดีพลอยเว็บแอปพลิเคชัน JavaScript ทั่วไปเป็นอย่างยิ่ง
 
-เราได้สร้างรีโพตัวอย่างหลายรีโพที่แสดงวิธีตั้งค่าและดีพลอยแอป Leptos CSR ไปยังบริการโฮสติ้งต่างๆ
+เราได้เตรียมคลังเก็บโค้ดตัวอย่างไว้หลายแห่ง เพื่อสาธิตวิธีตั้งค่าและดีพลอยแอป Leptos CSR ไปยังผู้ให้บริการโฮสติ้งชั้นนำต่าง ๆ
 
-_หมายเหตุ: Leptos ไม่ได้สนับสนุนให้ใช้บริการโฮสติ้งใดเป็นการเฉพาะ - คุณสามารถใช้บริการใดก็ได้ที่รองรับการดีพลอยเว็บไซต์แบบสแตติก_
+_หมายเหตุ: Leptos ไม่ได้สนับสนุนให้ใช้บริการโฮสติ้งใดเป็นการเฉพาะ—คุณสามารถเลือกใช้ผู้ให้บริการรายใดก็ได้ที่รองรับการดีพลอยเว็บไซต์แบบสแตติก_
 
 ตัวอย่าง:
 
@@ -21,7 +21,7 @@ _หมายเหตุ: Leptos ไม่ได้สนับสนุนใ�
 
 ## Github Pages
 
-การดีพลอยแอป Leptos CSR ไปยัง Github Pages เป็นเรื่องง่ายดาย อย่างแรก ให้ไปที่การตั้งค่าของรีโพ Github ของคุณ แล้วคลิกที่ "Pages" ในเมนูด้านซ้าย ในส่วน "Build and deployment" ของหน้านั้น ให้เปลี่ยน "source" เป็น "Github Actions" จากนั้นคัดลอกสิ่งต่อไปนี้ไปยังไฟล์เช่น `.github/workflows/gh-pages-deploy.yml`
+การดีพลอยแอป Leptos CSR ไปยัง Github Pages เป็นเรื่องที่สะดวกและง่ายดายมาก: ขั้นแรก ให้ไปที่การตั้งค่า (Settings) ของรีโพบน Github ของคุณ แล้วคลิกที่ “Pages” ในเมนูด้านซ้าย ในส่วน “Build and deployment” ให้เปลี่ยน “source” เป็น “Github Actions” จากนั้นคัดลอกเวิร์กโฟลว์ต่อไปนี้ไปใส่ไว้ในไฟล์ เช่น `.github/workflows/gh-pages-deploy.yml`
 
 ```admonish example collapsible=true
 
@@ -124,37 +124,37 @@ _หมายเหตุ: Leptos ไม่ได้สนับสนุนใ�
 
 ### ขั้นตอนที่ 1: ตั้งค่า Vercel
 
-ในส่วนติดต่อผู้ใช้เว็บของ Vercel...
+บนเว็บแดชบอร์ดของ Vercel...
 
 1. สร้างโปรเจกต์ใหม่
 2. ตรวจสอบให้แน่ใจว่า
-   - "Build Command" ถูกเว้นว่างไว้โดยเปิด Override
-   - "Output Directory" ถูกเปลี่ยนเป็น dist (ซึ่งเป็นไดเรกทอรีเอาต์พุตเริ่มต้นสำหรับบิลด์ของ Trunk) และเปิด Override
+   - ช่อง "Build Command" ถูกเว้นว่างไว้ และเปิดใช้งาน Override
+   - ช่อง "Output Directory" ถูกเปลี่ยนเป็น `dist` (ซึ่งเป็นไดเรกทอรีผลลัพธ์เริ่มต้นสำหรับบิลด์ของ Trunk) และเปิดใช้งาน Override
 
 <img src="./image.png" />
 
 ### ขั้นตอนที่ 2: เพิ่มข้อมูลรับรองของ Vercel สำหรับ GitHub Actions
 
-หมายเหตุ: ทั้งแอ็กชันพรีวิวและดีพลอยจะต้องมีการตั้งค่าข้อมูลรับรองของ Vercel ของคุณไว้ใน GitHub secrets
+หมายเหตุ: ทั้งเวิร์กโฟลว์พรีวิวและเวิร์กโฟลว์ดีพลอยจะต้องมีการตั้งค่าข้อมูลรับรองของ Vercel ของคุณไว้ใน GitHub secrets
 
-1. ดึง[Vercel Access Token](https://vercel.com/guides/how-do-i-use-a-vercel-api-access-token) ของคุณโดยไปที่ "Account Settings" > "Tokens" แล้วสร้างโทเคนใหม่ - บันทึกโทเคนไว้ใช้ในขั้นตอนย่อยที่ 5 ด้านล่าง
+1. ดึงค่า [Vercel Access Token](https://vercel.com/guides/how-do-i-use-a-vercel-api-access-token) ของคุณโดยไปที่ "Account Settings" > "Tokens" แล้วสร้างโทเคนใหม่—บันทึกโทเคนนี้ไว้ใช้ในขั้นตอนที่ 5 ด้านล่าง
 
-2. ติดตั้ง [Vercel CLI](https://vercel.com/cli) ด้วยคำสั่ง `npm i -g vercel` จากนั้นรัน `vercel login` เพื่อเข้าสู่ระบบบัญชีของคุณ
+2. ติดตั้ง [Vercel CLI](https://vercel.com/cli) ด้วยคำสั่ง `npm i -g vercel` จากนั้นรัน `vercel login` เพื่อเข้าสู่ระบบบัญชีผู้ใช้ของคุณ
 
-3. ภายในโฟลเดอร์ของคุณ ให้รัน `vercel link` เพื่อสร้างโปรเจกต์ Vercel ใหม่; ใน CLI คุณจะถูกถามว่า 'Link to an existing project?' - ให้ตอบ yes แล้วป้อนชื่อที่คุณสร้างในขั้นตอนที่ 1 โฟลเดอร์ `.vercel` ใหม่จะถูกสร้างให้คุณ
+3. ภายในโฟลเดอร์โปรเจกต์ของคุณ ให้รัน `vercel link` เพื่อเชื่อมโยงโปรเจกต์ Vercel; ใน CLI คุณจะถูกถามว่า 'Link to an existing project?' ให้ตอบ yes แล้วป้อนชื่อที่คุณสร้างไว้ในขั้นตอนที่ 1 ระบบจะสร้างโฟลเดอร์ `.vercel` ใหม่ให้คุณโดยอัตโนมัติ
 
-4. ภายในโฟลเดอร์ `.vercel` ที่สร้างขึ้น ให้เปิดไฟล์ `project.json` แล้วบันทึก "projectId" และ "orgId" ไว้สำหรับขั้นตอนถัดไป
+4. ภายในโฟลเดอร์ `.vercel` ที่ถูกสร้างขึ้น ให้เปิดไฟล์ `project.json` แล้วคัดลอกค่า "projectId" และ "orgId" เก็บไว้สำหรับขั้นตอนถัดไป
 
-5. ภายใน GitHub ให้ไปที่ "Settings" > "Secrets and Variables" > "Actions" ของรีโพ แล้วเพิ่มสิ่งต่อไปนี้เป็น [Repository secrets](https://docs.github.com/en/actions/security-guides/encrypted-secrets):
-   - บันทึก Vercel Access Token ของคุณ (จากขั้นตอนย่อยที่ 1) เป็น secret ชื่อ `VERCEL_TOKEN`
-   - จาก `.vercel/project.json` ให้เพิ่ม "projectID" เป็น `VERCEL_PROJECT_ID`
-   - จาก `.vercel/project.json` ให้เพิ่ม "orgId" เป็น `VERCEL_ORG_ID`
+5. บนหน้า GitHub ให้ไปที่ "Settings" > "Secrets and Variables" > "Actions" ของรีโพ แล้วเพิ่มค่าต่อไปนี้ลงใน [Repository secrets](https://docs.github.com/en/actions/security-guides/encrypted-secrets):
+   - บันทึก Vercel Access Token ของคุณ (จากขั้นตอนที่ 1) เป็น secret ชื่อ `VERCEL_TOKEN`
+   - นำค่า "projectId" จาก `.vercel/project.json` มาบันทึกเป็น `VERCEL_PROJECT_ID`
+   - นำค่า "orgId" จาก `.vercel/project.json` มาบันทึกเป็น `VERCEL_ORG_ID`
 
-<i>สำหรับคำแนะนำฉบับเต็ม ดู["ฉันจะใช้ Github Actions กับ Vercel ได้อย่างไร"](https://vercel.com/guides/how-can-i-use-github-actions-with-vercel)</i>
+<i>สำหรับคำแนะนำฉบับเต็ม ดูได้ที่ ["ฉันจะใช้ Github Actions กับ Vercel ได้อย่างไร"](https://vercel.com/guides/how-can-i-use-github-actions-with-vercel)</i>
 
 ### ขั้นตอนที่ 3: เพิ่มสคริปต์ Github Action
 
-สุดท้ายนี้ คุณก็พร้อมที่จะคัดลอกและวางสองไฟล์ - ไฟล์หนึ่งสำหรับการดีพลอย อีกไฟล์สำหรับพรีวิว PR - จากด้านล่างหรือจาก[โฟลเดอร์ `.github/workflows/` ของรีโพตัวอย่าง](https://github.com/diversable/vercel-leptos-CSR-deployment/tree/leptos_0.6/.github/workflows) ไปยังโฟลเดอร์ github workflows ของคุณเอง - จากนั้นเมื่อคุณคอมมิตหรือเปิด PR ครั้งถัดไป การดีพลอยจะเกิดขึ้นโดยอัตโนมัติ
+สุดท้ายนี้ คุณก็พร้อมที่จะคัดลอกไฟล์เวิร์กโฟลว์ทั้งสองไฟล์—ไฟล์หนึ่งสำหรับการดีพลอย และอีกไฟล์สำหรับพรีวิว PR—จากด้านล่างนี้หรือจาก [โฟลเดอร์ `.github/workflows/` ของรีโพตัวอย่าง](https://github.com/diversable/vercel-leptos-CSR-deployment/tree/leptos_0.6/.github/workflows) ไปยังโฟลเดอร์ `.github/workflows/` ของคุณเอง—หลังจากนั้น เมื่อคุณคอมมิตหรือเปิด PR ครั้งถัดไป ระบบจะทำการดีพลอยให้โดยอัตโนมัติ
 
 <i>สคริปต์สำหรับดีพลอยโปรดักชัน: `vercel_deploy.yml`</i>
 
@@ -313,11 +313,11 @@ _หมายเหตุ: Leptos ไม่ได้สนับสนุนใ�
 
 ```
 
-ดู[รีโพตัวอย่างได้ที่นี่](https://github.com/diversable/vercel-leptos-CSR-deployment) สำหรับข้อมูลเพิ่มเติม
+ดู [รีโพตัวอย่างได้ที่นี่](https://github.com/diversable/vercel-leptos-CSR-deployment) สำหรับข้อมูลเพิ่มเติม
 
 ## Spin - WebAssembly แบบเซิร์ฟเวอร์เลส
 
-อีกทางเลือกหนึ่งคือการใช้แพลตฟอร์มแบบเซิร์ฟเวอร์เลสอย่าง Spin แม้ว่า [Spin](https://github.com/fermyon/spin) จะเป็นโอเพนซอร์สและคุณสามารถรันมันบนโครงสร้างพื้นฐานของคุณเองได้ (เช่น ภายใน Kubernetes) แต่วิธีที่ง่ายที่สุดในการเริ่มต้นใช้ Spin ในโปรดักชันคือการใช้ Fermyon Cloud
+อีกทางเลือกหนึ่งคือการใช้แพลตฟอร์มแบบเซิร์ฟเวอร์เลสอย่าง Spin แม้ว่า [Spin](https://github.com/fermyon/spin) จะเป็นโอเพนซอร์สและคุณสามารถสั่งรันมันบนโครงสร้างพื้นฐานของคุณเองได้ (เช่น ภายใน Kubernetes) แต่วิธีที่ง่ายที่สุดในการเริ่มต้นใช้ Spin ในโปรดักชันคือการใช้ Fermyon Cloud
 
 เริ่มต้นด้วยการติดตั้ง [Spin CLI ตามคำแนะนำที่นี่](https://developer.fermyon.com/spin/v2/install) และสร้างรีโพ Github สำหรับโปรเจกต์ Leptos CSR ของคุณ หากคุณยังไม่ได้ทำ
 
@@ -531,11 +531,11 @@ _หมายเหตุ: Leptos ไม่ได้สนับสนุนใ�
 
 ```
 
-ดู[รีโพตัวอย่างได้ที่นี่](https://github.com/diversable/leptos-spin-CSR)
+ดู [รีโพตัวอย่างได้ที่นี่](https://github.com/diversable/leptos-spin-CSR)
 
 # Netlify
 
-การดีพลอยแอป Leptos CSR ไปยัง Netlify ต้องทำเพียงสร้างโปรเจกต์และเพิ่มไฟล์การกำหนดค่าอย่างง่ายสองไฟล์ไว้ในรูทของโปรเจกต์ของคุณ มาเริ่มจากอย่างหลังกันเลย
+การดีพลอยแอป Leptos CSR ไปยัง Netlify นั้นเรียบง่ายมาก เพียงสร้างโปรเจกต์และเพิ่มไฟล์การกำหนดค่าพื้นฐานสองไฟล์ไว้ในรูทของโปรเจกต์ของคุณ มาเริ่มจากอย่างหลังกันก่อน:
 
 ## ไฟล์การกำหนดค่า
 
@@ -567,6 +567,6 @@ targets = ["wasm32-unknown-unknown"]
 
 1. [เพิ่มโปรเจกต์ของคุณไปยัง Netlify](https://docs.netlify.com/start/add-new-project/) โดยเชื่อมต่อรีโพ Git ของคุณ
 2. Netlify จะตรวจจับการกำหนดค่า `netlify.toml` ของคุณโดยอัตโนมัติ
-3. หากคุณต้องการตัวแปรสภาพแวดล้อมเพิ่มเติม ให้กำหนดค่าเหล่านั้นใน[การตั้งค่าตัวแปรสภาพแวดล้อมของ Netlify](https://docs.netlify.com/build/environment-variables/overview/)
+3. หากคุณต้องการตัวแปรสภาพแวดล้อมเพิ่มเติม ให้กำหนดค่าเหล่านั้นใน [การตั้งค่าตัวแปรสภาพแวดล้อมของ Netlify](https://docs.netlify.com/build/environment-variables/overview/)
 
 ไฟล์ `rust-toolchain.toml` ช่วยให้มั่นใจว่ามี toolchain ของ Rust และเป้าหมาย WASM ที่ถูกต้องพร้อมใช้งานระหว่างกระบวนการบิลด์ ส่วนกฎการเปลี่ยนเส้นทาง (redirect) ใน `netlify.toml` ช่วยให้เส้นทาง SPA ของคุณทำงานได้อย่างถูกต้องโดยการเสิร์ฟ `index.html` สำหรับทุกพาธ
