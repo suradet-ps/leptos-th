@@ -29,10 +29,10 @@ Built for the Thai-speaking student of Leptos:
 | 60 files translated ▣ | Glossary ▣ | Links 706/706 ▣ | Build passing ▣ |
 |---|---|---|---|
 
-*v1.0.0 - translation, glossary, verification, and the static build
-are all sealed.*
+*Translation, glossary, verification, and the static build are all
+sealed.*
 
-> Built with mdbook 0.4 + mdbook-admonish + Markdown, translated from
+> Built with mdbook 0.4.36 + mdbook-admonish 1.15.0 + Markdown, translated from
 > [leptos-rs/book](https://github.com/leptos-rs/book),
 > verified by script and rendered as static HTML - a book with the
 > pages on the page.
@@ -61,9 +61,9 @@ Open [http://localhost:3000](http://localhost:3000).
 ⟫ powershell scripts/verify-translation.ps1     # byte-exact check vs upstream
 ```
 
-> The book pins mdbook 0.4 and mdbook-admonish 1.15, the same pair
-> the upstream Leptos book builds with. mdbook-admonish needs the
-> 0.4.x protocol; newer mdbook versions are not compatible yet.
+> The book pins mdbook 0.4.36 and mdbook-admonish 1.15.0, the same
+> pair the upstream Leptos book builds with. mdbook-admonish needs
+> the 0.4.x protocol; newer mdbook versions are not compatible yet.
 > On Linux or macOS, run the verification scripts using
 > `pwsh scripts/<script>.ps1`. `verify-translation.ps1` checks
 > against `leptos-rs/book` in adjacent directories or via
@@ -79,10 +79,10 @@ and filenames stay verbatim; only prose and headings are translated.
 Prose inside `admonish` blocks is translated too, while the directive
 and any code nested inside stay untouched. Heading anchors follow
 mdbook's slug rules (Thai tone marks are stripped), so anchors are
-copied from the built HTML, never guessed. Four upstream links that
-pointed at non-existent paths or English anchors are fixed to their
-Thai headings in `scripts/verify-translation.ps1` (see
-`$knownLinkFixes`).
+copied from the built HTML, never guessed. Three upstream links that
+pointed at root-absolute paths (which break on GitHub Pages project
+sites) are fixed to their page-relative targets in
+`scripts/verify-translation.ps1` (see `$knownLinkFixes`).
 
 </details>
 
@@ -93,9 +93,10 @@ Thai headings in `scripts/verify-translation.ps1` (see
 One stack, zero custom JS, several quiet helpers.
 
 - **Translates** - the complete book: introduction, getting started,
-  the view layer, reactivity, testing, async, router, global state,
-  SSR, server functions, deployment, islands, and the appendices -
-  Thai prose over untouched code.
+  the view layer, reactivity, testing, async, the interludes, router,
+  global state, metadata, wasm-bindgen, the CSR wrap-up, SSR, server
+  functions, progressive enhancement, deployment, islands, and the
+  appendices - Thai prose over untouched code.
 - **Glossaries** - `GLOSSARY.md` locks the vocabulary (one Thai
   rendering per term, reused everywhere), so chapter nine agrees
   with chapter two.
@@ -143,11 +144,11 @@ The verifier is the conscience of the repo.
 **Where this artifact is heading**
 
 ```
-P1 ▸ SUMMARY + introduction + getting started ────────────────────── ▸ sealed
-P2 ▸ view, reactivity, testing, async ─────────────────────────────── ▸ sealed
-P3 ▸ router, global state, styling, metadata, wasm-bindgen ────────── ▸ sealed
-P4 ▸ SSR, server, progressive enhancement, deployment, islands ────── ▸ sealed
-P5 ▸ glossary, license, link verification, mdbook build ───────────── ▸ sealed
+P1 ▸ SUMMARY + introduction + getting started ─────────────────────────────── ▸ sealed
+P2 ▸ view, reactivity, testing, async, projecting children ────────────────── ▸ sealed
+P3 ▸ router, global state, styling, metadata, wasm-bindgen, CSR wrap-up ───── ▸ sealed
+P4 ▸ SSR, server, progressive enhancement, deployment, islands, appendices ── ▸ sealed
+P5 ▸ glossary, license, link verification, mdbook build ───────────────────── ▸ sealed
 ```
 
 **Raising the artifact** - the honest path lives in `GLOSSARY.md`
