@@ -1,20 +1,13 @@
 # leptos-th
 
-```
-██╗     ███████╗██████╗ ████████╗ ██████╗ ███████╗       ████████╗██╗  ██╗
-██║     ██╔════╝██╔══██╗╚══██╔══╝██╔═══██╗██╔════╝       ╚══██╔══╝██║  ██║
-██║     █████╗  ██████╔╝   ██║   ██║   ██║███████╗ █████╗   ██║   ███████║
-██║     ██╔══╝  ██╔═══╝    ██║   ██║   ██║╚════██║ ╚════╝   ██║   ██╔══██║
-███████╗███████╗██║        ██║   ╚██████╔╝███████║          ██║   ██║  ██║
-╚══════╝╚══════╝╚═╝        ╚═╝    ╚═════╝ ╚══════╝          ╚═╝   ╚═╝  ╚═╝
-```
+[![Deploy](https://github.com/suradet-ps/leptos-th/actions/workflows/docs.yml/badge.svg)](https://github.com/suradet-ps/leptos-th/actions/workflows/docs.yml)
+[![GitHub Pages](https://img.shields.io/badge/Pages-live-2ea44f)](https://suradet-ps.github.io/leptos-th/)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
+[![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](https://github.com/suradet-ps/leptos-th/issues)
 
 ---
 
 ## ◆ PULSE
-
-[![GitHub Pages](https://img.shields.io/badge/Pages-live-2ea44f)](https://suradet-ps.github.io/leptos-th/)
-[![License](https://img.shields.io/badge/license-MIT-blue.svg)](#-anatomy)
 
 A Leptos app has a first signal, and a first render - leptos-th is
 the Thai bridge to that exact moment. This is the complete Thai
